@@ -52,12 +52,15 @@ class GeoSemanticSegmentation(rv.ExperimentSet):
         elif test_run == 'False':
             test_run = False
 
-        train_ids = ['RTU', 'RUU', 'RUV', 'RVU', 'RVV', 'RWU', 'RWV', 'RXU', 'RXV', 'SQA',
-                    'SQR', 'SQS', 'SQT', 'SQU', 'SQV', 'STA', 'STB', 'STC', 'STD', 'STE', 'STF',
-                    'SUA', 'SUB', 'SUC', 'SUD', 'SUE', 'SUF', 'SVA', 'SVB', 'SVC', 'SVD', 'SVE',
-                    'SVF', 'SWA', 'SWB', 'SWC', 'SWD', 'SWE', 'SWF', 'SXA', 'SXB', 'SXC', 'SXD',
-                    ]
-        val_ids = ['SXE', 'SXF', 'SYC', 'SYD']
+        train_ids = ['RVV', 'RWV', 'RXV', 'SQA', 'SQR', 'SQS',
+                     'SQU', 'SQV', 'STA', 'STB', 'STC', 'STD',
+                     'STE', 'STF', 'SUA', 'SUB', 'SUC', 'SUD',
+                     'SUE', 'SUF', 'SVA', 'SVB', 'SVC', 'SVD',
+                     'SVF', 'SWA', 'SWB', 'SWC', 'SWD', 'SWE',
+                     'SWF', 'SXA', 'SXB', 'SXC', 'SXE', 'SXF']
+
+        # 'SVE' = SP Crater
+        val_ids = ['SVE', 'SQT', 'SXD']
 
         # blue, red, ir
         channel_order = [0, 1, 2]
@@ -72,7 +75,7 @@ class GeoSemanticSegmentation(rv.ExperimentSet):
             debug = True
             num_steps = 1
             batch_size = 1
-            chips_per_scene = 50
+            chips_per_scene = 225
             train_ids = train_ids[0:1]
             val_ids = val_ids[0:1]
 
@@ -124,9 +127,9 @@ class GeoSemanticSegmentation(rv.ExperimentSet):
         val_scenes = [build_scene(task, data_uri, id, channel_order)
                       for id in val_ids]
 
-        augmentor = rv.AugmentorConfig(rv.NODATA_AUGMENTOR) \
-                                  .with_probability(0.3) \ 
-                                  .build()
+        augmentor = rv.AugmentorConfig.builder(rv.NODATA_AUGMENTOR) \
+                                    .with_probability(0.3) \
+                                    .build()
 
         dataset = rv.DatasetConfig.builder() \
                                   .with_augmentor(augmentor) \
@@ -136,7 +139,7 @@ class GeoSemanticSegmentation(rv.ExperimentSet):
 
 
         experiment = rv.ExperimentConfig.builder() \
-                                        .with_id('geo-seg-xcept') \
+                                        .with_id('geoss-xception65') \
                                         .with_task(task) \
                                         .with_backend(backend) \
                                         .with_dataset(dataset) \
