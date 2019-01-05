@@ -8,14 +8,14 @@ def build_scene(task, data_uri, id, channel_order=None):
     label_source_uri = '{}/labels/{}_labels.tif'.format(data_uri, id)
 
     # Using with_rgb_class_map because input TIFFs have classes encoded as RGB colors.
-    label_source = rv.LabelSourceConfig.builder(rv.SEMANTIC_SEGMENTATION) \
+    label_source = rv.LabelSourceConfig.builder(rv.SEMANTIC_SEGMENTATION_RASTER) \
         .with_rgb_class_map(task.class_map) \
         .with_raster_source(label_source_uri) \
         .build()
 
     # URI will be injected by scene config.
     # Using with_rgb(True) because we want prediction TIFFs to be in RGB format.
-    label_store = rv.LabelStoreConfig.builder(rv.SEMANTIC_SEGMENTATION) \
+    label_store = rv.LabelStoreConfig.builder(rv.SEMANTIC_SEGMENTATION_RASTER) \
         .with_rgb(True) \
         .build()
 
