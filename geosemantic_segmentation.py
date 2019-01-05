@@ -132,7 +132,7 @@ class GeoSemanticSegmentation(rv.ExperimentSet):
                                   .build()
 
         dataset = rv.DatasetConfig.builder() \
-                                  .with_augmentor(augmentor) \
+                                #   .with_augmentor(augmentor) \
                                   .with_train_scenes(train_scenes) \
                                   .with_validation_scenes(val_scenes) \
                                   .build()
