@@ -44,7 +44,11 @@ def generate_unitcolor_lookup(path_to_desc):
     (https://github.com/azgs/geologic-map-of-arizona/blob/gh-pages/data/DescriptionOfMapUnits.csv)
     
     '''
-    unitcolor = pd.read_csv(path_to_desc)
+    try:
+        unitcolor = pd.read_csv(path_to_desc)
+    except:
+        unitcolor = pd.read_csv('https://raw.githubusercontent.com/azgs/geologic-map-of-arizona/gh-pages/data/DescriptionOfMapUnits.csv')
+
     unitcolor = unitcolor.loc[:, ['mapunit', 'areafillrgb']]
     unitcolor['R'] = unitcolor.areafillrgb.apply(lambda x: np.int(x.split(';')[0]))
     unitcolor['G'] = unitcolor.areafillrgb.apply(lambda x: np.int(x.split(';')[1]))
@@ -73,7 +77,7 @@ def gdf_to_rst(gdf, trs, w, h, path_to_desc):
 
 def clean_gdf_geometry(gdf):
     '''
-    This function splits entries with MultiPolygon geometries into Polygon Geometries.
+    Expands MultiPolygon geometries into Polygon Geometries.
     
     gdf: A GeoPandas GeoDataFrame
     '''
@@ -106,7 +110,10 @@ def generate_label_array(path_to_rasterfile, path_to_azgeo, path_to_desc):
     '''
     Collect the labels intersecting the bounds of the image, rasterize the labels, and return as a numpy aray.
     '''
-    azgeo = gpd.read_file(path_to_azgeo)
+    try:
+        azgeo = gpd.read_file(path_to_azgeo)
+    except:
+        azgeo = gpd.read_file('https://raw.githubusercontent.com/azgs/geologic-map-of-arizona/gh-pages/data/MapUnitPolys.geojson')
     azgeo = clean_gdf_geometry(azgeo)
 
     with rasterio.open(path_to_rasterfile, 'r') as src:
@@ -161,3 +168,29 @@ def write_label_image(label_array, path_to_rasterfile, filename_to_write):
 
     return
 
+
+def mask_raster(imgpth, lblpth):
+    ''' 
+    Writes out a tiff file ('_raster.tif') masked by 0
+    for NODATA regions (e.g., outside of Arizona).
+    '''
+    with rasterio.open(lblpth, 'r') as lbl:
+        msk = lbl.read_masks()
+        nm = (msk/255).astype(rasterio.uint16)
+
+    with rasterio.open(imgpth, 'r+') as src:
+        meta = src.meta.copy()
+        b1, b2, b3 = (src.read(band) for band in (1,2,3))
+        b1 *= nm[0, :, :]
+        b2 *= nm[1, :, :]
+        b3 *= nm[2, :, :]
+
+    name = imgpth.split('/')[-1] 
+    path = imgpth.replace(name, '')
+    outname = path + name.split('_')[0] + '_raster.tif'
+
+    with rasterio.open(outname, 'w', **meta) as dst:
+        for k, arr in [(1, b1), (2, b2), (3, b3)]:
+            dst.write(arr, indexes=k)
+            
+    return
