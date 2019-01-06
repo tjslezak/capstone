@@ -128,11 +128,10 @@ class GeoSemanticSegmentation(rv.ExperimentSet):
                       for id in val_ids]
 
         augmentor = rv.AugmentorConfig.builder(rv.NODATA_AUGMENTOR) \
-                                    .with_probability(0.3) \
-                                    .build()
+                                  .with_probability(0.3) \
+                                  .build()
 
         dataset = rv.DatasetConfig.builder() \
-                                  .with_augmentor(augmentor) \
                                   .with_train_scenes(train_scenes) \
                                   .with_validation_scenes(val_scenes) \
                                   .build()
