@@ -36,7 +36,7 @@ def part_the_geojson(bounds, gdf):
     return new
 
 
-def generate_unitcolor_lookup(path_to_desc):
+def generate_unitcolor_lookup(path_to_desc=''):
     '''
     Creates a Look Up Table (LUT) for the RGB values of geologic units.
     
@@ -57,6 +57,32 @@ def generate_unitcolor_lookup(path_to_desc):
     unitcolor = unitcolor.set_index('mapunit')
     
     return unitcolor
+
+
+def build_class_color_dict(path_to_desc=''):
+    ''' 
+    Creates a dictionary of geologic unit labels mapped to a
+    class id integer and PIL RGB color string. For use in Rastervision Experiment file.
+    '''
+    if path_to_desc:
+        unitcolor = generate_unitcolor_lookup(path_to_desc)
+    else:
+        unitcolor = generate_unitcolor_lookup()
+
+    for i, row in unitcolor.iterrows():
+        newval = 'rgb({},{},{})'.format(row.R, row.G, row.B)
+        unitcolor.at[i, 'rgb'] =  newval
+        
+    colordict = unitcolor.drop(columns=['R','G','B'])
+    colordict.drop_duplicates(keep='first', inplace=True)
+    colordict = colordict.to_dict()['rgb']
+
+    classes = dict()
+    for n, (key, val) in enumerate(colordict.items()):
+        classes[key] = (n, val)
+    classes['NODATA'] = (n+1, 'rgb(0,0,0)')
+    
+    return classes
 
 
 def gdf_to_rst(gdf, trs, w, h, path_to_desc):
@@ -150,7 +176,7 @@ def format_label_fn(path_to_rasterfile):
 
 def write_label_image(label_array, path_to_rasterfile, filename_to_write):
     '''
-    Write out the numpy array with the raster's geoinformation, to a filename.
+    Write out the numpy array with the raster's geoinformation to a file.
     '''
     with rasterio.open(path_to_rasterfile, 'r') as src:
         meta = src.meta.copy()
@@ -194,3 +220,4 @@ def mask_raster(imgpth, lblpth):
             dst.write(arr, indexes=k)
             
     return
+
