@@ -129,10 +129,11 @@ def normalize(array):
     '''
     array_min, array_max = array.min(), array.max()
     new_array = ((array - array_min)/(array_max - array_min))
+
     return new_array
 
 
-def generate_label_array(path_to_rasterfile, path_to_azgeo, path_to_desc):
+def generate_label_array(path_to_rasterfile, path_to_azgeo='', path_to_desc=''):
     '''
     Collect the labels intersecting the bounds of the image, rasterize the labels, and return as a numpy aray.
     '''
@@ -140,6 +141,7 @@ def generate_label_array(path_to_rasterfile, path_to_azgeo, path_to_desc):
         azgeo = gpd.read_file(path_to_azgeo)
     except:
         azgeo = gpd.read_file('https://raw.githubusercontent.com/azgs/geologic-map-of-arizona/gh-pages/data/MapUnitPolys.geojson')
+
     azgeo = clean_gdf_geometry(azgeo)
 
     with rasterio.open(path_to_rasterfile, 'r') as src:
@@ -174,7 +176,7 @@ def format_label_fn(path_to_rasterfile):
     return path + label_fn
 
 
-def write_label_image(label_array, path_to_rasterfile, filename_to_write):
+def write_label_image(label_array, path_to_rasterfile, fn_write):
     '''
     Write out the numpy array with the raster's geoinformation to a file.
     '''
@@ -182,13 +184,14 @@ def write_label_image(label_array, path_to_rasterfile, filename_to_write):
         meta = src.meta.copy()
         meta.update(dtype=str(meta['dtype']))
         w, h = meta['width'], meta['height']
+        crs, trs = meta['crs'], meta['transform']
         
     r, g, b = np.dsplit(label_array, 3)
     r = r.reshape(w, h)
     g = g.reshape(w, h)
     b = b.reshape(w, h)
     
-    with rasterio.open(filename_to_write, 'w', **DefaultGTiffProfile(count=3, width=w, height=h), crs=meta['crs'], transform=meta['transform']) as dst:
+    with rasterio.open(fn_write, 'w', **DefaultGTiffProfile(count=3, width=w, height=h), crs=crs, transform=trs) as dst:
         for k, arr in [(1, r), (2, g), (3, b)]:
             dst.write(arr, indexes=k)
 
