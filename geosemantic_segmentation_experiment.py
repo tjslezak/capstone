@@ -67,15 +67,15 @@ class GeoSemanticSegmentation(rv.ExperimentSet):
 
         debug = False
         batch_size = 8
-        chips_per_scene = 100
-        num_steps = 150000
-        model_type = rv.XCEPTION_65
+        chips_per_scene = 225
+        num_steps = 100000
+        model_type = rv.MOBILENET_V2
 
         if test_run:
             debug = True
             num_steps = 1
             batch_size = 1
-            chips_per_scene = 100
+            chips_per_scene = 225
             train_ids = train_ids[0:1]
             val_ids = val_ids[0:1]
 
@@ -105,7 +105,7 @@ class GeoSemanticSegmentation(rv.ExperimentSet):
                      'NODATA': (46, 'rgb(0,0,0)')}
 
         task = rv.TaskConfig.builder(rv.SEMANTIC_SEGMENTATION) \
-                            .with_chip_size(549) \
+                            .with_chip_size(366) \
                             .with_classes(classes) \
                             .with_chip_options(
                                 chips_per_scene=chips_per_scene,
@@ -134,7 +134,7 @@ class GeoSemanticSegmentation(rv.ExperimentSet):
 
 
         experiment = rv.ExperimentConfig.builder() \
-                                        .with_id('geoss-xception65-100') \
+                                        .with_id('geoss-MOBILENET_V2') \
                                         .with_task(task) \
                                         .with_backend(backend) \
                                         .with_dataset(dataset) \
