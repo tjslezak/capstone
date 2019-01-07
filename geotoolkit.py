@@ -36,7 +36,7 @@ def part_the_geojson(bounds, gdf):
     return new
 
 
-def generate_unitcolor_lookup(path_to_desc):
+def generate_unitcolor_lookup(path_to_desc=''):
     '''
     Creates a Look Up Table (LUT) for the RGB values of geologic units.
     
@@ -44,7 +44,11 @@ def generate_unitcolor_lookup(path_to_desc):
     (https://github.com/azgs/geologic-map-of-arizona/blob/gh-pages/data/DescriptionOfMapUnits.csv)
     
     '''
-    unitcolor = pd.read_csv(path_to_desc)
+    try:
+        unitcolor = pd.read_csv(path_to_desc)
+    except:
+        unitcolor = pd.read_csv('https://raw.githubusercontent.com/azgs/geologic-map-of-arizona/gh-pages/data/DescriptionOfMapUnits.csv')
+
     unitcolor = unitcolor.loc[:, ['mapunit', 'areafillrgb']]
     unitcolor['R'] = unitcolor.areafillrgb.apply(lambda x: np.int(x.split(';')[0]))
     unitcolor['G'] = unitcolor.areafillrgb.apply(lambda x: np.int(x.split(';')[1]))
@@ -53,6 +57,32 @@ def generate_unitcolor_lookup(path_to_desc):
     unitcolor = unitcolor.set_index('mapunit')
     
     return unitcolor
+
+
+def build_class_color_dict(path_to_desc=''):
+    ''' 
+    Creates a dictionary of geologic unit labels mapped to a
+    class id integer and PIL RGB color string. For use in Rastervision Experiment file.
+    '''
+    if path_to_desc:
+        unitcolor = generate_unitcolor_lookup(path_to_desc)
+    else:
+        unitcolor = generate_unitcolor_lookup()
+
+    for i, row in unitcolor.iterrows():
+        newval = 'rgb({},{},{})'.format(row.R, row.G, row.B)
+        unitcolor.at[i, 'rgb'] =  newval
+        
+    colordict = unitcolor.drop(columns=['R','G','B'])
+    colordict.drop_duplicates(keep='first', inplace=True)
+    colordict = colordict.to_dict()['rgb']
+
+    classes = dict()
+    for n, (key, val) in enumerate(colordict.items()):
+        classes[key] = (n, val)
+    classes['NODATA'] = (n+1, 'rgb(0,0,0)')
+    
+    return classes
 
 
 def gdf_to_rst(gdf, trs, w, h, path_to_desc):
@@ -73,7 +103,7 @@ def gdf_to_rst(gdf, trs, w, h, path_to_desc):
 
 def clean_gdf_geometry(gdf):
     '''
-    This function splits entries with MultiPolygon geometries into Polygon Geometries.
+    Expands MultiPolygon geometries into Polygon Geometries.
     
     gdf: A GeoPandas GeoDataFrame
     '''
@@ -99,14 +129,19 @@ def normalize(array):
     '''
     array_min, array_max = array.min(), array.max()
     new_array = ((array - array_min)/(array_max - array_min))
+
     return new_array
 
 
-def generate_label_array(path_to_rasterfile, path_to_azgeo, path_to_desc):
+def generate_label_array(path_to_rasterfile, path_to_azgeo='', path_to_desc=''):
     '''
     Collect the labels intersecting the bounds of the image, rasterize the labels, and return as a numpy aray.
     '''
-    azgeo = gpd.read_file(path_to_azgeo)
+    try:
+        azgeo = gpd.read_file(path_to_azgeo)
+    except:
+        azgeo = gpd.read_file('https://raw.githubusercontent.com/azgs/geologic-map-of-arizona/gh-pages/data/MapUnitPolys.geojson')
+
     azgeo = clean_gdf_geometry(azgeo)
 
     with rasterio.open(path_to_rasterfile, 'r') as src:
@@ -141,23 +176,51 @@ def format_label_fn(path_to_rasterfile):
     return path + label_fn
 
 
-def write_label_image(label_array, path_to_rasterfile, filename_to_write):
+def write_label_image(label_array, path_to_rasterfile, fn_write):
     '''
-    Write out the numpy array with the raster's geoinformation, to a filename.
+    Write out the numpy array with the raster's geoinformation to a file.
     '''
     with rasterio.open(path_to_rasterfile, 'r') as src:
         meta = src.meta.copy()
         meta.update(dtype=str(meta['dtype']))
         w, h = meta['width'], meta['height']
+        crs, trs = meta['crs'], meta['transform']
         
     r, g, b = np.dsplit(label_array, 3)
     r = r.reshape(w, h)
     g = g.reshape(w, h)
     b = b.reshape(w, h)
     
-    with rasterio.open(filename_to_write, 'w', **DefaultGTiffProfile(count=3, width=w, height=h), crs=meta['crs'], transform=meta['transform']) as dst:
+    with rasterio.open(fn_write, 'w', **DefaultGTiffProfile(count=3, width=w, height=h), crs=crs, transform=trs) as dst:
         for k, arr in [(1, r), (2, g), (3, b)]:
             dst.write(arr, indexes=k)
 
+    return
+
+
+def mask_raster(imgpth, lblpth):
+    ''' 
+    Writes out a tiff file ('_raster.tif') masked by 0
+    for NODATA regions (e.g., outside of Arizona).
+    '''
+    with rasterio.open(lblpth, 'r') as lbl:
+        msk = lbl.read_masks()
+        nm = (msk/255).astype(rasterio.uint16)
+
+    with rasterio.open(imgpth, 'r+') as src:
+        meta = src.meta.copy()
+        b1, b2, b3 = (src.read(band) for band in (1,2,3))
+        b1 *= nm[0, :, :]
+        b2 *= nm[1, :, :]
+        b3 *= nm[2, :, :]
+
+    name = imgpth.split('/')[-1] 
+    path = imgpth.replace(name, '')
+    outname = path + name.split('_')[0] + '_raster.tif'
+
+    with rasterio.open(outname, 'w', **meta) as dst:
+        for k, arr in [(1, b1), (2, b2), (3, b3)]:
+            dst.write(arr, indexes=k)
+            
     return
 
