@@ -4,7 +4,7 @@ import rastervision as rv
 
 def build_scene(task, data_uri, id, channel_order=None):
     ## id = id.replace('-', '_')
-    raster_source_uri = '{}/tiled_rasters/{}_tiled_raster.tif'.format(data_uri, id)
+    raster_source_uri = '{}/rasters/{}_raster.tif'.format(data_uri, id)
     label_source_uri = '{}/labels/{}_labels.tif'.format(data_uri, id)
 
     # Using with_rgb_class_map because input TIFFs have classes encoded as RGB colors.
