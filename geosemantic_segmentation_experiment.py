@@ -66,13 +66,8 @@ class GeoSemanticSegmentation(rv.ExperimentSet):
         channel_order = [0, 1, 2]
 
         debug = False
-<<<<<<< HEAD
         batch_size = 8
         chips_per_scene = 100
-=======
-        batch_size = 16
-        chips_per_scene = 225
->>>>>>> 5a453c7cdb839719143bfe2390d9d873d542b71e
         num_steps = 150000
         model_type = rv.XCEPTION_65
 
