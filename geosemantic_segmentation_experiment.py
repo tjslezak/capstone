@@ -121,7 +121,7 @@ class GeoSemanticSegmentation(rv.ExperimentSet):
                                         .with_root_uri(root_uri) \
                                         .with_stats_analyzer() \
                                         .with_analyze_key(ac_key) \
-                                        .with_chip_key(ac_key)
+                                        .with_chip_key(ac_key) \
                                         .build()
 
         return experiment
