@@ -10,6 +10,7 @@ import geopandas as gpd
 
 import glob
 import fiona
+import boto3
 
 import rasterio.features
 from rasterio.features import rasterize
@@ -22,15 +23,11 @@ def part_the_geojson(bounds, gdf):
     '''
     todrop = []
     for i, row in gdf.iterrows():
-        # Check if intersect with the bounds
         if row.geometry.intersects(bounds) or row.geometry.contains(bounds):
-            # Clip intersection
             new_value = row.geometry.intersection(bounds)
-            # Replace existing geometry
             gdf.at[i, 'geometry'] =  new_value
         else:
             todrop.append(i)
-    # Drop entries that don't intersect with the bounds
     new = gdf.drop(gdf.index[todrop])
     
     return new
@@ -42,7 +39,6 @@ def generate_unitcolor_lookup(path_to_desc=''):
     
     path_to_description_file: Local path to description file containing RGB values.
     (https://github.com/azgs/geologic-map-of-arizona/blob/gh-pages/data/DescriptionOfMapUnits.csv)
-    
     '''
     try:
         unitcolor = pd.read_csv(path_to_desc)
@@ -88,7 +84,6 @@ def build_class_color_dict(path_to_desc=''):
 def gdf_to_rst(gdf, trs, w, h, path_to_desc):
     '''
     Convert a view of a gdf to a color-coded numpy array.
-
     '''
     unitcolor = generate_unitcolor_lookup(path_to_desc)
     rz = rasterize([(x.geometry, unitcolor.R[gdf.mapunit[i]]) for i, x in gdf.iterrows()],
@@ -104,7 +99,6 @@ def gdf_to_rst(gdf, trs, w, h, path_to_desc):
 def clean_gdf_geometry(gdf):
     '''
     Expands MultiPolygon geometries into Polygon Geometries.
-    
     gdf: A GeoPandas GeoDataFrame
     '''
     outdf = gpd.GeoDataFrame(columns=gdf.columns)
@@ -223,4 +217,29 @@ def mask_raster(imgpth, lblpth):
             dst.write(arr, indexes=k)
             
     return
+
+def get_tile_ids(bucket='tjds', prefix='geostacks/labels'):
+    ''' 
+    Queries AWS S3 bucket for the tile ids contained in a folder.
+    '''
+    s3 = boto3.client('s3')
+    lab = s3.list_objects_v2(Bucket=bucket, Prefix=prefix)['Contents']
+    tile_ids = [i['Key'].split('/')[-1][:3] for i in lab if '.tif' in i['Key']]
+    
+    return tile_ids
+
+
+def tile_train_test_split(tile_ids=list, test=[], n=3):
+    ''' 
+    Given a list of tile_ids ([ABC, SQS, SWE]) randomly choose n tiles to test.
+    If test tiles are pre-defined, subtract from all to yield train.
+    '''
+    tiles = np.array(tile_ids)
+    if test:
+        train = list(set(tiles) - set(test))
+    else:
+        test = list(np.random.choice(tiles, a=n, replace=False))
+        train = list(set(tiles) - set(test))
+        
+    return train, test
 
