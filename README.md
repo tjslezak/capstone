@@ -21,3 +21,6 @@ Using a "Geology" band combination of 2-4-12 and training labels consisting of t
 
 ## Results
 A model was trained using Sentinel 2 Satellite Imagery for the state of Arizona and the State Geologic Map.  Model training took approximately 23.8 hours on a P3.2XLarge AWS EC2 Instance using a NVIDIA Tesla V100 GPU though a Docker container and acheived a recall = .71, precision = .73, and F1 score = .71.
+
+## One-Page Summary Sheet
+![One_page](Slezak-One-Page.pdf)
