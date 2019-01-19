@@ -1,0 +1,434 @@
+[
+    {
+        "recall": null,
+        "class_id": 0,
+        "precision": null,
+        "gt_count": 169744,
+        "class_name": "Ys",
+        "f1": null,
+        "count_error": 0
+    },
+    {
+        "recall": 0.4277753992448068,
+        "class_id": 1,
+        "precision": 0.22738980686529528,
+        "gt_count": 310649,
+        "class_name": "Xg",
+        "f1": 0.29530678246626074,
+        "count_error": 597630.702857566
+    },
+    {
+        "recall": null,
+        "class_id": 2,
+        "precision": 0.0,
+        "gt_count": 0,
+        "class_name": "Jm",
+        "f1": null,
+        "count_error": 10436
+    },
+    {
+        "recall": 0.3575264864864865,
+        "class_id": 3,
+        "precision": 0.035605443166592254,
+        "gt_count": 115625,
+        "class_name": "Xm",
+        "f1": 0.06416995634801212,
+        "count_error": 833792.6084583784
+    },
+    {
+        "recall": 0.6810592748422225,
+        "class_id": 4,
+        "precision": 0.5824343907109184,
+        "gt_count": 606075,
+        "class_name": "Js",
+        "f1": 0.6278976374718773,
+        "count_error": 489232
+    },
+    {
+        "recall": 0.1426856102645733,
+        "class_id": 5,
+        "precision": 0.6017827355484118,
+        "gt_count": 726226,
+        "class_name": "Ks",
+        "f1": 0.1709953563220714,
+        "count_error": 380616.4181577085
+    },
+    {
+        "recall": 0.023734177215189875,
+        "class_id": 6,
+        "precision": 0.003863324175824176,
+        "gt_count": 1896,
+        "class_name": "Ti",
+        "f1": 0.0066450088600118135,
+        "count_error": 13454.0
+    },
+    {
+        "recall": 0.7042031554408605,
+        "class_id": 7,
+        "precision": 0.7848201400424795,
+        "gt_count": 11384780,
+        "class_name": "^c",
+        "f1": 0.7417458458979078,
+        "count_error": 3051736.1554554417
+    },
+    {
+        "recall": 0.8090227072035381,
+        "class_id": 8,
+        "precision": 0.7838640815171409,
+        "gt_count": 10629138,
+        "class_name": "QTb",
+        "f1": 0.7936546566912477,
+        "count_error": 2664802.483898506
+    },
+    {
+        "recall": 0.8347440539125683,
+        "class_id": 9,
+        "precision": 0.5371495606319787,
+        "gt_count": 2229239,
+        "class_name": "Jgc",
+        "f1": 0.6536693473103607,
+        "count_error": 1971845
+    },
+    {
+        "recall": 0.19795161050912868,
+        "class_id": 10,
+        "precision": 0.1564560407330064,
+        "gt_count": 67370,
+        "class_name": "TKg",
+        "f1": 0.17477458586705807,
+        "count_error": 125936.0
+    },
+    {
+        "recall": 0.16739126435653887,
+        "class_id": 11,
+        "precision": 0.053716466616296074,
+        "gt_count": 163079,
+        "class_name": "Tby",
+        "f1": 0.07479084416587335,
+        "count_error": 601876.7316331349
+    },
+    {
+        "recall": 0.317203688944552,
+        "class_id": 12,
+        "precision": 0.22476805163372326,
+        "gt_count": 26349,
+        "class_name": "Xms",
+        "f1": 0.26310322032297667,
+        "count_error": 46818
+    },
+    {
+        "recall": 0.2888719997715576,
+        "class_id": 13,
+        "precision": 0.7091873877663275,
+        "gt_count": 455257,
+        "class_name": "Tg",
+        "f1": 0.41052542859640134,
+        "count_error": 377674.0
+    },
+    {
+        "recall": 0.8544809119048788,
+        "class_id": 14,
+        "precision": 0.8672714578987175,
+        "gt_count": 488472,
+        "class_name": "Tb",
+        "f1": 0.8608286757275145,
+        "count_error": 134960.0
+    },
+    {
+        "recall": 0.5443372157515253,
+        "class_id": 15,
+        "precision": 0.7017303017303017,
+        "gt_count": 90150,
+        "class_name": "QTs",
+        "f1": 0.6130934532733633,
+        "count_error": 61936.0
+    },
+    {
+        "recall": 0.30145991162285857,
+        "class_id": 16,
+        "precision": 0.4619009339471291,
+        "gt_count": 3535077,
+        "class_name": "Qo",
+        "f1": 0.35402497928253157,
+        "count_error": 1787511.6570487716
+    },
+    {
+        "recall": 0.2667647497814452,
+        "class_id": 17,
+        "precision": 0.6818355223717913,
+        "gt_count": 140697,
+        "class_name": "Tsv",
+        "f1": 0.38349068170671896,
+        "count_error": 120678.0
+    },
+    {
+        "recall": 0.5398234340128003,
+        "class_id": 18,
+        "precision": 0.5054695688281363,
+        "gt_count": 3163803,
+        "class_name": "^m",
+        "f1": 0.49810184881270664,
+        "count_error": 1849338.0384287518
+    },
+    {
+        "recall": 0.36797224404142526,
+        "class_id": 19,
+        "precision": 0.47571815068236495,
+        "gt_count": 345007,
+        "class_name": "Tsm",
+        "f1": 0.41496519702618034,
+        "count_error": 357967.0
+    },
+    {
+        "recall": 0.7824800994022768,
+        "class_id": 20,
+        "precision": 0.867722091379437,
+        "gt_count": 7620751,
+        "class_name": "P",
+        "f1": 0.822899487237376,
+        "count_error": 2566694
+    },
+    {
+        "recall": 0.38779246690506075,
+        "class_id": 21,
+        "precision": 0.6727581788629576,
+        "gt_count": 675632,
+        "class_name": "KJo",
+        "f1": 0.4919907499992958,
+        "count_error": 541071.0
+    },
+    {
+        "recall": 0.0,
+        "class_id": 22,
+        "precision": null,
+        "gt_count": 1152546,
+        "class_name": "QTv",
+        "f1": null,
+        "count_error": 1152546
+    },
+    {
+        "recall": null,
+        "class_id": 23,
+        "precision": null,
+        "gt_count": 0,
+        "class_name": "Kv",
+        "f1": null,
+        "count_error": 0
+    },
+    {
+        "recall": 0.5589674582567329,
+        "class_id": 24,
+        "precision": 0.29870058843189484,
+        "gt_count": 263815,
+        "class_name": "P*",
+        "f1": 0.38934389438943895,
+        "count_error": 462572
+    },
+    {
+        "recall": 0.08282312019734157,
+        "class_id": 25,
+        "precision": 0.3187406092063926,
+        "gt_count": 338094,
+        "class_name": "Jsv",
+        "f1": 0.1314814553957544,
+        "count_error": 369942.0
+    },
+    {
+        "recall": 0.9142431605868383,
+        "class_id": 26,
+        "precision": 0.8017688084797846,
+        "gt_count": 2539984,
+        "class_name": "Tv",
+        "f1": 0.854319972981544,
+        "count_error": 791958.0
+    },
+    {
+        "recall": 0.45194104214241226,
+        "class_id": 27,
+        "precision": 0.4772901669894398,
+        "gt_count": 144510,
+        "class_name": "J^",
+        "f1": 0.46426984662958287,
+        "count_error": 150725.0
+    },
+    {
+        "recall": 0.7713401421992674,
+        "class_id": 28,
+        "precision": 0.7648370500254691,
+        "gt_count": 3609020,
+        "class_name": "Qr",
+        "f1": 0.7680748313565722,
+        "count_error": 1681162.0
+    },
+    {
+        "recall": 0.34951464470311383,
+        "class_id": 29,
+        "precision": 0.3324482011041383,
+        "gt_count": 118985,
+        "class_name": "|",
+        "f1": 0.34076787498169175,
+        "count_error": 116436.04885489766
+    },
+    {
+        "recall": 0.010769921148791588,
+        "class_id": 30,
+        "precision": 0.009574013392221114,
+        "gt_count": 31198,
+        "class_name": "Yg",
+        "f1": 0.010136816858491847,
+        "count_error": 65621.0
+    },
+    {
+        "recall": 0.8903659828524617,
+        "class_id": 31,
+        "precision": 0.6649481729192291,
+        "gt_count": 466306,
+        "class_name": "M_",
+        "f1": 0.761321732114533,
+        "count_error": 260324
+    },
+    {
+        "recall": 0.58117210965075,
+        "class_id": 32,
+        "precision": 0.6293879267266189,
+        "gt_count": 2714473,
+        "class_name": "Qy",
+        "f1": 0.5817231792110839,
+        "count_error": 791234.1127946384
+    },
+    {
+        "recall": 0.8453227444824083,
+        "class_id": 33,
+        "precision": 0.3452125051853528,
+        "gt_count": 10829,
+        "class_name": "Kmv",
+        "f1": 0.49022653028436786,
+        "count_error": 19038
+    },
+    {
+        "recall": 0.8385295909367811,
+        "class_id": 34,
+        "precision": 0.4881823908359933,
+        "gt_count": 109983,
+        "class_name": "TKgm",
+        "f1": 0.6170975857823457,
+        "count_error": 114448.0
+    },
+    {
+        "recall": 0.03961086236019362,
+        "class_id": 35,
+        "precision": 0.24661650273504712,
+        "gt_count": 484867,
+        "class_name": "Jg",
+        "f1": 0.06825826973140589,
+        "count_error": 524333.0
+    },
+    {
+        "recall": null,
+        "class_id": 36,
+        "precision": 0.0,
+        "gt_count": 0,
+        "class_name": "Xq",
+        "f1": null,
+        "count_error": 2188
+    },
+    {
+        "recall": 0.05321789003474329,
+        "class_id": 37,
+        "precision": 0.2877161598091831,
+        "gt_count": 18133,
+        "class_name": "Xmv",
+        "f1": 0.0898217526876716,
+        "count_error": 19557
+    },
+    {
+        "recall": 0.6810754951765623,
+        "class_id": 38,
+        "precision": 0.6936350966449168,
+        "gt_count": 886401,
+        "class_name": "TXgn",
+        "f1": 0.6872979225297594,
+        "count_error": 549340.0
+    },
+    {
+        "recall": null,
+        "class_id": 39,
+        "precision": 0.0,
+        "gt_count": 0,
+        "class_name": "Yd",
+        "f1": null,
+        "count_error": 1748
+    },
+    {
+        "recall": 0.4756885309513541,
+        "class_id": 40,
+        "precision": 0.674543801384157,
+        "gt_count": 9254377,
+        "class_name": "Tsy",
+        "f1": 0.5562909910960163,
+        "count_error": 4703197.922626774
+    },
+    {
+        "recall": 0.0,
+        "class_id": 41,
+        "precision": 0.0,
+        "gt_count": 7895,
+        "class_name": "Tso",
+        "f1": 0.0,
+        "count_error": 129579.0
+    },
+    {
+        "recall": 0.0,
+        "class_id": 42,
+        "precision": 0.0,
+        "gt_count": 75550,
+        "class_name": "YXg",
+        "f1": 0.0,
+        "count_error": 90222.0
+    },
+    {
+        "recall": 0.6298445703117518,
+        "class_id": 43,
+        "precision": 0.5165372944714571,
+        "gt_count": 7361721,
+        "class_name": "Q",
+        "f1": 0.5635317867610826,
+        "count_error": 2798070.6606025957
+    },
+    {
+        "recall": 0.0,
+        "class_id": 44,
+        "precision": 0.0,
+        "gt_count": 129078,
+        "class_name": "}|",
+        "f1": 0.0,
+        "count_error": 129078.0
+    },
+    {
+        "recall": 0.8793969849246231,
+        "class_id": 45,
+        "precision": 0.5898876404494382,
+        "gt_count": 37611,
+        "class_name": "Tvy",
+        "f1": 0.7061197041022191,
+        "count_error": 27531.0
+    },
+    {
+        "recall": 0.9997852133318073,
+        "class_id": 46,
+        "precision": 0.9991457364543186,
+        "gt_count": 17719908,
+        "class_name": "NODATA",
+        "f1": 0.9994653702539547,
+        "count_error": 9604.496921598013
+    },
+    {
+        "recall": 0.7063991161276839,
+        "class_id": null,
+        "precision": 0.7343835738391744,
+        "gt_count": 90420300,
+        "class_name": "average",
+        "f1": 0.7094107610933144,
+        "count_error": 1967933.2432959746
+    }
+]
