@@ -18,3 +18,6 @@ chmod +x Sen2Cor-02.05.05-Linux64.run && \
 ./Sen2Cor-02.05.05-Linux64.run
 
 RUN echo "source /Sen2Cor-02.05.05-Linux64/L2A_Bashrc" >> ~/.bashrc
+
+RUN sed -i -e '8s/1/AUTO/' ./root/sen2cor/2.5/cfg/L2A_GIPP.xml && \
+sed -i -e '12s/NONE/dem\/srtm/' ./root/sen2cor/2.5/cfg/L2A_GIPP.xml
